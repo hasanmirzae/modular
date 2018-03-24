@@ -30,14 +30,14 @@ public class SchedulerModule extends AbstractModule<SchedulerStatus,Void> {
 
     private Thread createThread() {
         return new Thread(()->{
-            try {
                 while (status == SchedulerStatus.ACTIVE){
-                    task.run();
+                    try {
+                        task.run();
                     TimeUnit.SECONDS.sleep(config.getIntervalSeconds());
+                    } catch (Throwable e) {
+                        handleException(e);
+                    }
                 }
-            } catch (Throwable e) {
-                handleException(e);
-            }
         });
     }
 

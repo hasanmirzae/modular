@@ -1,4 +1,4 @@
-package org.modular.module;
+package com.github.hasanmirzae.modul;
 
 import java.util.Arrays;
 import java.util.LinkedList;

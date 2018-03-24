@@ -1,4 +1,4 @@
-package org.modular.module;
+package com.github.hasanmirzae.modul;
 
 import java.io.IOException;
 import java.util.function.Consumer;

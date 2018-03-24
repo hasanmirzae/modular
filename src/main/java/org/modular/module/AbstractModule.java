@@ -37,15 +37,19 @@ public abstract class AbstractModule<I,O> implements Module<I,O>{
         return this;
     }
 
-    public void put(I input){
+    public void invoke(I input){
         try{
             O out = process(input);
             if (moduleConsumers != null && !moduleConsumers.isEmpty())
-                moduleConsumers.parallelStream().forEach(mod-> mod.put(out));
+                moduleConsumers.parallelStream().forEach(mod-> mod.invoke(out));
         }catch (Throwable e){
-            if(exceptionHandler != null)
-                exceptionHandler.accept(e);
+            handleException(e);
         }
+    }
+
+    protected void handleException(Throwable e){
+        if(exceptionHandler != null)
+            exceptionHandler.accept(e);
     }
 
     @Override

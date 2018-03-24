@@ -15,7 +15,7 @@ public interface Module<I,O> {
 
     Module<I,O> removeConsumer(Consumer<O>... consumers);
 
-    void put(I input);
+    void invoke(I input);
 
     Module<I,O> onException(Consumer<Throwable> exceptionHandler);
 

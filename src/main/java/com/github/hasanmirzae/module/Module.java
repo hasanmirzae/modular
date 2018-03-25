@@ -1,11 +1,10 @@
-package com.github.hasanmirzae.modul;
+package com.github.hasanmirzae.module;
 
-import java.io.IOException;
 import java.util.function.Consumer;
 
 public interface Module<I,O> {
 
-    O process(I input) throws IOException;
+    O process(I input);
 
     Module<I,O> addConsumer(Module<O,?>... modules);
 

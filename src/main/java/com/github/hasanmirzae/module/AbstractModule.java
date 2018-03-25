@@ -1,4 +1,4 @@
-package com.github.hasanmirzae.modul;
+package com.github.hasanmirzae.module;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ public abstract class AbstractModule<I,O> implements Module<I,O>{
         return this;
     }
 
-    public void invoke(I input){
+    public final void invoke(I input){
         try{
             O out = process(input);
             if (moduleConsumers != null && !moduleConsumers.isEmpty())
@@ -49,7 +49,7 @@ public abstract class AbstractModule<I,O> implements Module<I,O>{
 
     protected void handleException(Throwable e){
         if(exceptionHandler != null)
-            exceptionHandler.accept(e);
+            exceptionHandler.accept(new ModuleException(getClass(),e));
     }
 
     @Override
@@ -57,4 +57,24 @@ public abstract class AbstractModule<I,O> implements Module<I,O>{
         this.exceptionHandler = exceptionHandler;
         return this;
     }
+
 }
+
+ class ModuleException extends Throwable{
+
+    private Class<? extends Module> modClass;
+
+    ModuleException(Class<? extends Module> clazz, Throwable cause){
+        super(String.format("[%s]: %s\n",clazz.getSimpleName(),cause.getMessage()), cause);
+        this.modClass = clazz;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("%s %s",modClass.getSimpleName(),super.toString());
+    }
+}
+
+
+

@@ -18,4 +18,8 @@ public interface Module<I,O> {
 
     Module<I,O> onException(Consumer<Throwable> exceptionHandler);
 
+    Module<I,O> recordStatistics(boolean recordStatistic);
+
+    ModuleStatistics getStatistics();
+
 }

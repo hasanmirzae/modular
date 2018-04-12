@@ -1,5 +1,6 @@
 package com.github.hasanmirzae.module;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public interface Module<I,O> {
@@ -21,5 +22,7 @@ public interface Module<I,O> {
     Module<I,O> recordStatistics(boolean recordStatistic);
 
     ModuleStatistics getStatistics();
+
+    UUID getUuid();
 
 }

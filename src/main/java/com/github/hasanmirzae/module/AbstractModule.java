@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -13,7 +14,9 @@ public abstract class AbstractModule<I,O> implements Module<I,O>{
     protected List<Consumer<O>> functionalConsumers;
     protected Consumer<Throwable> exceptionHandler;
     protected ModuleStatistics statistics = new ModuleStatistics(getClass());
-    private Function<I,O> logic = getLogic();
+    protected Function<I,O> logic = getLogic();
+    protected UUID uuid;
+
 
     public Module<I,O> addConsumer(Module<O,?>... modules){
         if (moduleConsumers == null)
@@ -86,11 +89,18 @@ public abstract class AbstractModule<I,O> implements Module<I,O>{
     }
 
     @Override
-    public Module<I, O> onException(Consumer<Throwable> exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
+    public Module<I, O> onException(Consumer<Throwable> handler) {
+        exceptionHandler = handler;
         return this;
     }
 
+    @Override
+    public UUID getUuid() {
+        if (this.uuid == null){
+            this.uuid = UUID.fromString(toString()+System.nanoTime());
+        }
+        return this.uuid;
+    }
 }
 
  class ModuleException extends Throwable{
